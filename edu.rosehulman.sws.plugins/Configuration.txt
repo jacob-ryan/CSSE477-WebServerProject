@@ -1,0 +1,2 @@
+FooBarRoot
+ExamplePlugin	SubDir
