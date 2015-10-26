@@ -139,14 +139,16 @@ public class ConnectionHandler implements Runnable
 				else
 				{
 					System.out.println("Couldn't find plugin to handle request!!!");
+					plugin = PluginManager.instance.getDefaultPlugin();
+					plugin.processRequest(this.server.getRootDirectory(), "DefaultServlet", request, response);
 				}
 			}
 			else
 			{
 				//Process static file
+				System.out.println("Using default plugin to process static file.");
 				Plugin plugin = PluginManager.instance.getDefaultPlugin();
 				plugin.processRequest(this.server.getRootDirectory(), "DefaultServlet", request, response);
-				System.out.println("Should be serving static file here!!!");
 			}
 		}
 		catch (Exception e)
