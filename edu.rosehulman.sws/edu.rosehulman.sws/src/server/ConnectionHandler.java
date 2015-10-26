@@ -143,7 +143,8 @@ public class ConnectionHandler implements Runnable
 			}
 			else
 			{
-				// TODO: Serve static files like before.
+				//Process static file
+				response = request.handleRequest(this.server.getRootDirectory());
 				System.out.println("Should be serving static file here!!!");
 			}
 		}
