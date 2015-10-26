@@ -54,7 +54,16 @@ public class PluginManager extends Thread
 					Plugin plugin = PluginLoader.loadPlugin(name);
 					this.registry.addInstalledPlugin(name);
 
-					// TODO: Check for overwrites/existing plugins.
+					if(this.plugins.containsKey(plugin.getRootUrl()))
+					{
+						int choice = JOptionPane.showConfirmDialog(null, "Root Context is already used: " + plugin.getRootUrl() +"\nDo you want to overwrite it with the following plugin?\n" + name);
+						if (choice != JOptionPane.YES_OPTION)
+						{
+							log("[PluginManager] User chose not to use plugin " + name + ".");
+							return;
+						}
+					}
+					
 					this.plugins.put(plugin.getRootUrl(), plugin);
 					plugin.start();
 				}
