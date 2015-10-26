@@ -10,8 +10,6 @@
 
 package protocol;
 
-import java.io.*;
-
 /**
  * @author Chandan R. Rupakheti (rupakhcr@clarkson.edu)
  */
@@ -27,38 +25,6 @@ public class PostRequest extends HttpRequest
 		super(uri, version);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see protocol.HttpRequest#handleRequest(java.lang.String)
-	 */
-	@Override
-	public HttpResponse handleRequest(String rootDirectory)
-	{
-		File file = new File(rootDirectory + getUri());
-
-		if (file.exists() && file.isDirectory())
-		{
-			return HttpResponseFactory.create400BadRequest(Protocol.CLOSE);
-		}
-
-		try
-		{
-			if (!file.exists())
-			{
-				file.createNewFile();
-			}
-			try (FileWriter writer = new FileWriter(file, true))
-			{
-				writer.write(getBody());
-			}
-		}
-		catch (IOException e)
-		{
-			return HttpResponseFactory.create505NotSupported(Protocol.CLOSE);
-		}
-
-		return HttpResponseFactory.createSuccess(file, Protocol.CLOSE, getSuccessCode());
-	}
 
 	/*
 	 * (non-Javadoc)

@@ -1,2 +1,2 @@
-FooBarRoot
-MyGetHandler	ExamplePlugin
+DefaultPlugin
+DefaultServlet	DefaultServlet

@@ -10,8 +10,6 @@
 
 package protocol;
 
-import java.io.*;
-
 /**
  * @author Chandan R. Rupakheti (rupakhcr@clarkson.edu)
  */
@@ -27,29 +25,6 @@ public class DeleteRequest extends HttpRequest
 		super(uri, version);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see protocol.HttpRequest#handleRequest(java.lang.String)
-	 */
-	@Override
-	public HttpResponse handleRequest(String rootDirectory)
-	{
-		File file = new File(rootDirectory + getUri());
-
-		if (!file.exists())
-		{
-			return HttpResponseFactory.create404NotFound(Protocol.CLOSE);
-		}
-
-		if (file.isDirectory())
-		{
-			return HttpResponseFactory.create400BadRequest(Protocol.CLOSE);
-		}
-
-		file.delete();
-
-		return HttpResponseFactory.createSuccess(null, Protocol.CLOSE, getSuccessCode());
-	}
 
 	/*
 	 * (non-Javadoc)

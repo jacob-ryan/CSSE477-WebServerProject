@@ -1,1 +1,2 @@
+DefaultPlugin.jar
 ExamplePlugin2.jar
