@@ -8,7 +8,7 @@ public class DefaultServlet implements IServlet
 	@Override
 	public void start()
 	{
-		System.out.println("ExamplePlugin is starting...");
+		System.out.println("DefaultPlugin is starting...");
 		try
 		{
 			Thread.sleep(1000);
@@ -22,7 +22,7 @@ public class DefaultServlet implements IServlet
 	@Override
 	public void stop()
 	{
-		System.out.println("ExamplePlugin is stopping...");
+		System.out.println("DefaultPlugin is stopping...");
 		try
 		{
 			Thread.sleep(1000);
@@ -35,18 +35,22 @@ public class DefaultServlet implements IServlet
 
 	@Override
 	public void doGet(String serverRootDir, HttpRequest request, HttpResponse response)
-			throws Exception {
+			throws Exception 
+			{
 		String filePath = serverRootDir + parseFileName(request.getUri());
+		System.out.println(filePath);
 		File file = new File(filePath);
 		// Check if the file exists
 		if (file.exists())
 		{
 			System.out.println("File");
+			
 			if (file.isDirectory())
 			{
 				// Look for default index.html file in a directory
 				System.out.println("Directory");
 				String location = filePath + System.getProperty("file.separator") + Protocol.DEFAULT_FILE;
+				System.out.println(location);
 				file = new File(location);
 				System.out.println(location);
 				if (!file.exists())
@@ -72,17 +76,6 @@ public class DefaultServlet implements IServlet
 			response.setStatus(request.getSuccessCode());
 			response.setPhrase(request.getSuccessText());		
 		}
-		
-		System.out.println("ExamplePlugin received request: " + request.getMethod() + " @ " + request.getUri());
-		System.out.println(filePath);
-		InputStream is = new FileInputStream(file);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-		String line;
-		while((line = reader.readLine()) != null)
-		{
-			System.out.println(line);
-		}
-		reader.close();
 		
 	}
 
@@ -138,7 +131,8 @@ public class DefaultServlet implements IServlet
 
 	@Override
 	public void doDelete(String serverRootDir, HttpRequest request,
-			HttpResponse response) throws Exception {
+			HttpResponse response) throws Exception 
+			{
 		String filePath = serverRootDir + parseFileName(request.getUri());
 		File file = new File(filePath);
 
@@ -217,15 +211,16 @@ public class DefaultServlet implements IServlet
 
 	String parseFileName(String uri)
 	{
-		if(uri.endsWith("/")) {
-			return uri.substring(0, uri.length() - 1);
+		String path = uri;
+		if(path.endsWith("/")) {
+			path = path.substring(0, path.length() - 1);
 		}
-		if(!uri.contains(getServletName()))
+		if(!path.contains(getServletName()))
 		{
-			return uri;
+			return path;
 		}
 		
-		String path = uri.substring(uri.indexOf(getServletName()), getServletName().length() + 1);
+		path = path.substring(uri.indexOf(getServletName()), getServletName().length() + 1);
 		return path;
 	}
 }
