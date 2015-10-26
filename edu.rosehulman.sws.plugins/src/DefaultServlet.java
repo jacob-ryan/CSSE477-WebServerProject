@@ -41,11 +41,14 @@ public class DefaultServlet implements IServlet
 		// Check if the file exists
 		if (file.exists())
 		{
+			System.out.println("File");
 			if (file.isDirectory())
 			{
 				// Look for default index.html file in a directory
+				System.out.println("Directory");
 				String location = filePath + System.getProperty("file.separator") + Protocol.DEFAULT_FILE;
 				file = new File(location);
+				System.out.println(location);
 				if (!file.exists())
 				{
 					file = null;
@@ -54,6 +57,7 @@ public class DefaultServlet implements IServlet
 		}
 		else
 		{
+			System.out.println("No File");
 			file = null;
 		}
 
@@ -213,11 +217,15 @@ public class DefaultServlet implements IServlet
 
 	String parseFileName(String uri)
 	{
+		if(uri.endsWith("/")) {
+			return uri.substring(0, uri.length() - 1);
+		}
 		if(!uri.contains(getServletName()))
 		{
-			return uri.replace("/", "\\");
+			return uri;
 		}
+		
 		String path = uri.substring(uri.indexOf(getServletName()), getServletName().length() + 1);
-		return path.replace("/",  "\\");
+		return path;
 	}
 }
