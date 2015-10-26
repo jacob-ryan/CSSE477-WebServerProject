@@ -134,7 +134,7 @@ public class ConnectionHandler implements Runnable
 				if (plugin != null)
 				{
 					String subUrl = request.getUri().substring(endIndex + 1);
-					plugin.processRequest(subUrl, request, response);
+					plugin.processRequest(this.server.getRootDirectory(), subUrl, request, response);
 				}
 				else
 				{
@@ -144,7 +144,8 @@ public class ConnectionHandler implements Runnable
 			else
 			{
 				//Process static file
-				response = request.handleRequest(this.server.getRootDirectory());
+				Plugin plugin = PluginManager.instance.getDefaultPlugin();
+				plugin.processRequest(this.server.getRootDirectory(), "DefaultServlet", request, response);
 				System.out.println("Should be serving static file here!!!");
 			}
 		}

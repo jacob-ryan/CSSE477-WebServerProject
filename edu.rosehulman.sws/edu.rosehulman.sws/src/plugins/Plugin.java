@@ -40,10 +40,57 @@ public class Plugin {
 		}
 	}
 
-	public void processRequest(String subUrl, HttpRequest request, HttpResponse response) throws Exception {
+	public void processRequest(String serverRootDir, String subUrl, HttpRequest request, HttpResponse response) throws Exception {
 		IServlet servlet = this.servletMappings.get(subUrl);
 		if (servlet != null) {
-			servlet.processRequest(request.getMethod(), request, response);
+			switch(request.getMethod())
+			{
+			case Protocol.GET:
+				if(servlet.doesGet())
+				{
+					servlet.doGet(serverRootDir, request, response);
+				}
+				else
+				{
+					System.out.println("Servlet does not implement request method " + request.getMethod());
+				}
+				break;
+			case Protocol.DELETE:
+				if(servlet.doesDelete())
+				{
+					servlet.doDelete(serverRootDir, request, response);
+				}
+				else
+				{
+					System.out.println("Servlet does not implement request method " + request.getMethod());
+				}
+				break;
+			case Protocol.PUT:
+				if(servlet.doesPut())
+				{
+					servlet.doPut(serverRootDir, request, response);
+				}
+				else
+				{
+					System.out.println("Servlet does not implement request method " + request.getMethod());
+				}
+				break;
+			case Protocol.POST:
+				if(servlet.doesPost())
+				{
+					servlet.doPost(serverRootDir, request, response);
+				}
+				else
+				{
+					System.out.println("Servlet does not implement request method " + request.getMethod());
+				}
+				break;
+			default:
+				System.out.println("Unsupported method type");
+				break;
+
+			}
+			
 		} else {
 			throw new Exception("No servlets exist to handle sub-URL: " + subUrl);
 		}

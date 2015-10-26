@@ -1,2 +1,2 @@
-FooBarRoot
-MyHandler	ExamplePlugin
+DefaultPlugin
+DefaultServlet	DefaultServlet

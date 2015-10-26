@@ -10,8 +10,6 @@
 
 package protocol;
 
-import java.io.*;
-
 /**
  * @author Chandan R. Rupakheti (rupakhcr@clarkson.edu)
  */
@@ -23,43 +21,6 @@ public class GetRequest extends HttpRequest
 		super(uri, version);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see protocol.HttpRequest#handleRequest()
-	 */
-	@Override
-	public HttpResponse handleRequest(String rootDirectory)
-	{
-
-		File file = new File(rootDirectory + getUri());
-		// Check if the file exists
-		if (file.exists())
-		{
-			if (file.isDirectory())
-			{
-				// Look for default index.html file in a directory
-				String location = rootDirectory + getUri() + System.getProperty("file.separator") + Protocol.DEFAULT_FILE;
-				file = new File(location);
-				if (!file.exists())
-				{
-					file = null;
-				}
-			}
-		}
-		else
-		{
-			file = null;
-		}
-
-		if (file == null)
-		{
-			return HttpResponseFactory.create404NotFound(Protocol.CLOSE);
-		}
-		else
-		{
-			return HttpResponseFactory.createSuccess(file, Protocol.CLOSE, getSuccessCode());
-		}
-	}
 
 	/**
 	 * @return
