@@ -5,6 +5,11 @@ import java.nio.file.*;
 
 import javax.swing.*;
 
+/**
+ * Listens for new/modified plugins in the folder
+ * 
+ * @author Chandan R. Rupakheti (rupakhcr@clarkson.edu)
+ */
 public class PluginWatcher
 {
 	public PluginWatcher()

@@ -4,6 +4,11 @@ import java.util.*;
 
 import protocol.*;
 
+/**
+ * Used to map to servlets inside the plugin jar
+ * 
+ * @author Chandan R. Rupakheti (rupakhcr@clarkson.edu)
+ */
 public class Plugin {
 	private String rootUrl;
 	private Map<String, IServlet> servletMappings;

@@ -6,6 +6,11 @@ import java.util.*;
 import java.util.jar.*;
 import java.util.regex.*;
 
+/**
+ * Creates Plugin objects and assigns IServlets
+ * 
+ * @author Chandan R. Rupakheti (rupakhcr@clarkson.edu)
+ */
 public class PluginLoader
 {
 	public static Plugin loadPlugin(String name) throws Exception

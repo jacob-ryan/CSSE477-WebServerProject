@@ -2,6 +2,11 @@ package plugins;
 
 import protocol.*;
 
+/**
+ * Used to process requests, implemented by user
+ * 
+ * @author Chandan R. Rupakheti (rupakhcr@clarkson.edu)
+ */
 public interface IServlet
 {
 	public void start();

@@ -5,6 +5,11 @@ import java.util.*;
 
 import javax.swing.*;
 
+/**
+ * Allows access of plugins in other packages
+ * 
+ * @author Chandan R. Rupakheti (rupakhcr@clarkson.edu)
+ */
 public class PluginManager extends Thread
 {
 	public static PluginManager instance;
