@@ -1,2 +1,2 @@
 FooBarRoot
-ExamplePlugin	SubDir
+MyGetHandler	ExamplePlugin
