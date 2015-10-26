@@ -39,7 +39,7 @@ public class PluginWatcher
 		{
 			Path path = Paths.get(PluginRegistry.pluginLocation);
 			WatchService watchService = FileSystems.getDefault().newWatchService();
-			path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
+			path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_MODIFY, StandardWatchEventKinds.OVERFLOW, StandardWatchEventKinds.ENTRY_DELETE);
 			log("[PluginWatcher] Successfully created directory WatchService.");
 
 			while (true)
@@ -63,7 +63,7 @@ public class PluginWatcher
 		}
 	}
 
-	private void processEvents(WatchService watchService) throws InterruptedException
+	private boolean processEvents(WatchService watchService) throws InterruptedException
 	{
 		WatchKey key = watchService.take();
 		for (WatchEvent<?> event : key.pollEvents())
@@ -71,6 +71,7 @@ public class PluginWatcher
 			if (event.kind() == StandardWatchEventKinds.OVERFLOW)
 			{
 				log("[PluginWatcher] WatchService OVERFLOW occured.");
+				continue;
 			}
 			if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE)
 			{
@@ -79,7 +80,20 @@ public class PluginWatcher
 				File file = ((WatchEvent<Path>) event).context().toFile();
 				tryLoadFile(file);
 			}
+			if (event.kind() == StandardWatchEventKinds.ENTRY_MODIFY)
+			{
+				int choice = JOptionPane.showConfirmDialog(null, "This plugin has already been installed.\n"
+						+ "Do you want to reload?\n");
+				if (choice == JOptionPane.YES_OPTION)
+				{
+					@SuppressWarnings("unchecked")
+					File file = ((WatchEvent<Path>) event).context().toFile();
+					tryLoadFile(file);
+				}
+			}
 		}
+		return key.reset();
+	    
 	}
 
 	private boolean tryLoadFile(File file)
