@@ -74,6 +74,7 @@ public class PluginWatcher
 			}
 			if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE)
 			{
+				log("[PluginWatcher] Loading plugin...");
 				@SuppressWarnings("unchecked")
 				File file = ((WatchEvent<Path>) event).context().toFile();
 				tryLoadFile(file);

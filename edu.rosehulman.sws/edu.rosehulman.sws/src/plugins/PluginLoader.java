@@ -69,14 +69,14 @@ public class PluginLoader
 						{
 							throw new Exception("Configuration file contains invalid line: " + line);
 						}
-
-						String className = parts[0];
-						String subUrl = parts[1];
+						
+						String uri = parts[0];
+						String className = parts[1];
 						System.out.println("PluginLoader is loading class: " + className);
 						System.out.println("From paths:" + jarPath);
 						Class<?> clazz = classLoader.loadClass(className);
 						IServlet servlet = (IServlet) clazz.newInstance();
-						plugin.addServlet(subUrl, servlet);
+						plugin.addServlet(uri, servlet);
 					}
 				}
 
