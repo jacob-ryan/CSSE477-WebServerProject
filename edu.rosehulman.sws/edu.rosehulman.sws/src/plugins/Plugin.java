@@ -41,7 +41,12 @@ public class Plugin {
 	}
 
 	public void processRequest(String serverRootDir, String subUrl, HttpRequest request, HttpResponse response) throws Exception {
+		if(subUrl.contains("/"))
+		{
+			subUrl = subUrl.substring(0, subUrl.indexOf("/"));
+		}
 		IServlet servlet = this.servletMappings.get(subUrl);
+		
 		if (servlet != null) {
 			switch(request.getMethod())
 			{
