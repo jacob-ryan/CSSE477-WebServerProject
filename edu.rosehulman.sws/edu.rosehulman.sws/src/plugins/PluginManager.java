@@ -125,7 +125,6 @@ public class PluginManager extends Thread
 		try
 		{
 			this.registry = new PluginRegistry();
-			setDefaultPlugin();
 			new PluginWatcher();
 		}
 		catch (IOException e)
@@ -140,20 +139,13 @@ public class PluginManager extends Thread
 	{
 		System.out.println(status);
 	}
-	
-	private Plugin DEFAULT_PLUGIN;
-	private void setDefaultPlugin()
-	{
-		this.registry.addInstalledPlugin("DefaultPlugin");
-		loadPlugin("DefaultPlugin.jar");
-		DEFAULT_PLUGIN = this.plugins.get("DefaultPlugin");
-	}
+
 
 	/**
 	 * @return
 	 */
 	public Plugin getDefaultPlugin() 
 	{
-		return DEFAULT_PLUGIN;
+		return this.plugins.get("DefaultPlugin");
 	}
 }
