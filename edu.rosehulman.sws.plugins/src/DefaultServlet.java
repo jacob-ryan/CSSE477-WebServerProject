@@ -1,15 +1,36 @@
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.FileNameMap;
+import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
-import plugins.*;
-import protocol.*;
+import plugins.IServlet;
+import protocol.HttpRequest;
+import protocol.HttpResponse;
+import protocol.Protocol;
 
 public class DefaultServlet implements IServlet
 {
 	private static final String NAME = "DefaultServlet";
+	
+	Map<String, byte[]> cachedFiles;
 
 	@Override
 	public void start()
 	{
+		cachedFiles = new HashMap<String, byte[]>();
 		System.out.println("DefaultPlugin is starting...");
 		try
 		{
@@ -68,6 +89,53 @@ public class DefaultServlet implements IServlet
 			response.setPhrase(Protocol.NOT_SUPPORTED_TEXT);
 		}
 	}
+	
+	private void setBody(HttpResponse response, File file) throws IOException 
+	{
+		if(cachedFiles.containsKey(file.getName()))
+		{
+			response.setBody(cachedFiles.get(file.getName()));
+		}
+		else
+		{
+			Path path = Paths.get(file.getAbsolutePath());
+			byte[] data = Files.readAllBytes(path);
+			cachedFiles.put(file.getName(), data);
+			response.setBody(data);
+		}
+		
+	}
+
+	private void addHeaders(HttpResponse response, File file)
+	{
+		// Lets add last modified date for the file
+		long timeSinceEpoch = file.lastModified();
+		Date modifiedTime = new Date(timeSinceEpoch);
+		response.put(Protocol.LAST_MODIFIED, modifiedTime.toString());
+
+		// Lets get content length in bytes
+		long length = file.length();
+		response.put(Protocol.CONTENT_LENGTH, length + "");
+
+		// Lets get MIME type for the file
+		FileNameMap fileNameMap = URLConnection.getFileNameMap();
+		String mime = fileNameMap.getContentTypeFor(file.getName());
+		// The fileNameMap cannot find mime type for all of the documents, e.g. doc, odt, etc.
+		// So we will not add this field if we cannot figure out what a mime type is for the file.
+		// Let browser do this job by itself.
+		if (mime != null)
+		{
+			response.put(Protocol.CONTENT_TYPE, mime);
+		}
+	}
+	
+	private void invalidateFile(File file)
+	{
+		if(cachedFiles.containsKey(file.getName()))
+		{
+			cachedFiles.remove(file.getName());
+		}
+	}
 
 	public void doGet(String serverRootDir, HttpRequest request, HttpResponse response) throws Exception
 	{
@@ -101,12 +169,15 @@ public class DefaultServlet implements IServlet
 		}
 		else
 		{
-			response.setFile(file);
+			this.addHeaders(response, file);
+			this.setBody(response, file);
 			response.setStatus(request.getSuccessCode());
 			response.setPhrase(request.getSuccessText());
 		}
 
 	}
+	
+	
 
 	public void doPut(String serverRootDir, HttpRequest request, HttpResponse response) throws Exception
 	{
@@ -142,6 +213,7 @@ public class DefaultServlet implements IServlet
 
 		response.setStatus(request.getSuccessCode());
 		response.setPhrase(request.getSuccessText());
+		this.invalidateFile(file);
 	}
 
 	public void doDelete(String serverRootDir, HttpRequest request, HttpResponse response) throws Exception
@@ -164,7 +236,7 @@ public class DefaultServlet implements IServlet
 		}
 		response.setStatus(request.getSuccessCode());
 		response.setPhrase(request.getSuccessText());
-
+		this.invalidateFile(file);
 		file.delete();
 	}
 
@@ -200,7 +272,7 @@ public class DefaultServlet implements IServlet
 
 		response.setStatus(request.getSuccessCode());
 		response.setPhrase(request.getSuccessText());
-
+		this.invalidateFile(file);
 	}
 
 	private String parseFileName(String uri)

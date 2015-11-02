@@ -11,6 +11,7 @@ package protocol;
 import java.io.*;
 import java.net.FileNameMap;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -25,6 +26,7 @@ public class HttpResponse
 	private String phrase;
 	private Map<String, String> header;
 	private File file;
+	private byte[] body;
 
 	/**
 	 * Constructs a HttpResponse object using supplied parameter
@@ -84,34 +86,9 @@ public class HttpResponse
 		return this.file;
 	}
 	
-	public void setFile(File file)
+	public void setBody(byte[] body)
 	{
-		this.file = file;
-		
-		if (file == null)
-		{
-			return;
-		}
-
-		// Lets add last modified date for the file
-		long timeSinceEpoch = file.lastModified();
-		Date modifiedTime = new Date(timeSinceEpoch);
-		this.put(Protocol.LAST_MODIFIED, modifiedTime.toString());
-
-		// Lets get content length in bytes
-		long length = file.length();
-		this.put(Protocol.CONTENT_LENGTH, length + "");
-
-		// Lets get MIME type for the file
-		FileNameMap fileNameMap = URLConnection.getFileNameMap();
-		String mime = fileNameMap.getContentTypeFor(file.getName());
-		// The fileNameMap cannot find mime type for all of the documents, e.g. doc, odt, etc.
-		// So we will not add this field if we cannot figure out what a mime type is for the file.
-		// Let browser do this job by itself.
-		if (mime != null)
-		{
-			this.put(Protocol.CONTENT_TYPE, mime);
-		}
+		this.body = body;
 	}
 
 	/**
@@ -168,11 +145,11 @@ public class HttpResponse
 		out.write(Protocol.CRLF.getBytes());
 
 		// We are reading a file
-		if (getStatus() < 400 && this.file != null)
+		if (getStatus() < 400 && this.body != null)
 		{
 			// Process text documents
-			FileInputStream fileInStream = new FileInputStream(this.file);
-			BufferedInputStream inStream = new BufferedInputStream(fileInStream, Protocol.CHUNK_LENGTH);
+			InputStream stream = new ByteArrayInputStream(this.body);
+			BufferedInputStream inStream = new BufferedInputStream(stream, Protocol.CHUNK_LENGTH);
 
 			byte[] buffer = new byte[Protocol.CHUNK_LENGTH];
 			int bytesRead = 0;
