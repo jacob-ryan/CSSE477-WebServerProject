@@ -1,0 +1,6 @@
+Heartbeat Monitor Logs
+[2015-11-01 21:49:26.843] Started Heartbeat Monitor for Simple Web Server (SWS) 1.0.0
+[2015-11-01 21:49:26.874] Sending request...
+[2015-11-01 21:49:26.879] Server running smoothly.
+[2015-11-01 21:50:26.883] Sending request...
+[2015-11-01 21:50:26.886] Server running smoothly.
