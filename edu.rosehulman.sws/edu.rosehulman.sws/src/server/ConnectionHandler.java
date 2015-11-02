@@ -134,21 +134,23 @@ public class ConnectionHandler implements Runnable
 				if (plugin != null)
 				{
 					String subUrl = request.getUri().substring(endIndex + 1);
-					plugin.processRequest(this.server.getRootDirectory(), subUrl, request, response);
+					ServletMapping mapping = new ServletMapping(request.getMethod(), subUrl);
+					plugin.processRequest(this.server.getRootDirectory(), mapping, request, response);
 				}
 				else
 				{
-					System.out.println("Couldn't find plugin to handle request!!!");
+					System.out.println("Using default plugin to handle unknown request");
 					plugin = PluginManager.instance.getDefaultPlugin();
-					plugin.processRequest(this.server.getRootDirectory(), "DefaultServlet", request, response);
+					ServletMapping mapping = new ServletMapping(request.getMethod(), "DefaultServlet");
+					plugin.processRequest(this.server.getRootDirectory(), mapping, request, response);
 				}
 			}
 			else
 			{
-				//Process static file
-				System.out.println("Using default plugin to process static file.");
+				System.out.println("Using default plugin to handle static file request");
 				Plugin plugin = PluginManager.instance.getDefaultPlugin();
-				plugin.processRequest(this.server.getRootDirectory(), "DefaultServlet", request, response);
+				ServletMapping mapping = new ServletMapping(request.getMethod(), "DefaultServlet");
+				plugin.processRequest(this.server.getRootDirectory(), mapping, request, response);
 			}
 		}
 		catch (Exception e)

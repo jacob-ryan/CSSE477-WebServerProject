@@ -1,3 +1,1 @@
-
-DefaultPlugin
-DefaultPlugin.jar
+defaultplugin.jar

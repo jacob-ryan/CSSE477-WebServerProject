@@ -1,6 +1,7 @@
 package plugins;
 
 import java.util.*;
+import java.util.Map.Entry;
 
 import protocol.*;
 
@@ -9,100 +10,70 @@ import protocol.*;
  * 
  * @author Chandan R. Rupakheti (rupakhcr@clarkson.edu)
  */
-public class Plugin {
+public class Plugin
+{
 	private String rootUrl;
-	private Map<String, IServlet> servletMappings;
+	private Map<ServletMapping, IServlet> servletMappings;
 
-	public Plugin() {
+	public Plugin()
+	{
 		this.rootUrl = null;
-		this.servletMappings = new HashMap<String, IServlet>();
+		this.servletMappings = new HashMap<ServletMapping, IServlet>();
 	}
 
-	public void setRootUrl(String rootUrl) {
+	public void setRootUrl(String rootUrl)
+	{
 		this.rootUrl = rootUrl;
 	}
 
-	public String getRootUrl() {
+	public String getRootUrl()
+	{
 		return this.rootUrl;
 	}
 
-	public void addServlet(String uri, IServlet servlet) {
-		// ignore for now, later will ask user which uri to load.
-		if (!this.servletMappings.containsKey(uri)) {
-			this.servletMappings.put(uri, servlet);
+	public void addServlet(ServletMapping mapping, IServlet servlet)
+	{
+		if (this.servletMappings.containsKey(mapping))
+		{
+			throw new IllegalArgumentException("Trying to add duplicate servlet to a plugin: " + mapping);
+		}
+		else
+		{
+			this.servletMappings.put(mapping, servlet);
 		}
 	}
 
-	public void start() {
-		for (IServlet servlet : this.servletMappings.values()) {
+	public void start()
+	{
+		for (IServlet servlet : this.servletMappings.values())
+		{
 			servlet.start();
 		}
 	}
 
-	public void stop() {
-		for (IServlet servlet : this.servletMappings.values()) {
+	public void stop()
+	{
+		for (IServlet servlet : this.servletMappings.values())
+		{
 			servlet.stop();
 		}
 	}
 
-	public void processRequest(String serverRootDir, String subUrl, HttpRequest request, HttpResponse response) throws Exception {
-		if(subUrl.contains("/"))
-		{
-			subUrl = subUrl.substring(0, subUrl.indexOf("/"));
-		}
-		IServlet servlet = this.servletMappings.get(subUrl);
-		
-		if (servlet != null) {
-			switch(request.getMethod())
-			{
-			case Protocol.GET:
-				if(servlet.doesGet())
-				{
-					servlet.doGet(serverRootDir, request, response);
-				}
-				else
-				{
-					System.out.println("Servlet does not implement request method " + request.getMethod());
-				}
-				break;
-			case Protocol.DELETE:
-				if(servlet.doesDelete())
-				{
-					servlet.doDelete(serverRootDir, request, response);
-				}
-				else
-				{
-					System.out.println("Servlet does not implement request method " + request.getMethod());
-				}
-				break;
-			case Protocol.PUT:
-				if(servlet.doesPut())
-				{
-					servlet.doPut(serverRootDir, request, response);
-				}
-				else
-				{
-					System.out.println("Servlet does not implement request method " + request.getMethod());
-				}
-				break;
-			case Protocol.POST:
-				if(servlet.doesPost())
-				{
-					servlet.doPost(serverRootDir, request, response);
-				}
-				else
-				{
-					System.out.println("Servlet does not implement request method " + request.getMethod());
-				}
-				break;
-			default:
-				System.out.println("Unsupported method type");
-				break;
+	public void processRequest(String serverRootDir, ServletMapping mapping, HttpRequest request, HttpResponse response) throws Exception
+	{
+		IServlet servlet = this.servletMappings.get(mapping);
 
+		if (servlet != null)
+		{
+			servlet.processRequest(request, response, serverRootDir);
+		}
+		else
+		{
+			for (Entry<ServletMapping, IServlet> entry : this.servletMappings.entrySet())
+			{
+				System.out.println("Mapping: " + entry.getKey() + "\t" + entry.getValue());
 			}
-			
-		} else {
-			throw new Exception("No servlets exist to handle sub-URL: " + subUrl);
+			throw new Exception("No servlets exist to handle sub-URL: " + mapping.getSubUri());
 		}
 	}
 }

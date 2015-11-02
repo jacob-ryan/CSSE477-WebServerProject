@@ -70,18 +70,18 @@ public class PluginLoader
 					else
 					{
 						String[] parts = line.split(Pattern.quote("\t"));
-						if (parts.length != 2)
+						if (parts.length != 3)
 						{
 							throw new Exception("Configuration file contains invalid line: " + line);
 						}
 						
-						String uri = parts[0];
-						String className = parts[1];
-						System.out.println("PluginLoader is loading class: " + className);
-						System.out.println("From paths:" + jarPath);
+						String method = parts[0];
+						String uri = parts[1];
+						String className = parts[2];
+						System.out.println("[PluginLoader] Loading class: " + className);
 						Class<?> clazz = classLoader.loadClass(className);
 						IServlet servlet = (IServlet) clazz.newInstance();
-						plugin.addServlet(uri, servlet);
+						plugin.addServlet(new ServletMapping(method, uri), servlet);
 					}
 				}
 

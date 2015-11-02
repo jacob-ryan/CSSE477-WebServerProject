@@ -5,6 +5,8 @@ import protocol.*;
 
 public class DefaultServlet implements IServlet
 {
+	private static final String NAME = "DefaultServlet";
+
 	@Override
 	public void start()
 	{
@@ -34,16 +36,48 @@ public class DefaultServlet implements IServlet
 	}
 
 	@Override
-	public void doGet(String serverRootDir, HttpRequest request, HttpResponse response)
-			throws Exception 
+	public void processRequest(HttpRequest request, HttpResponse response, String rootDirectory)
+	{
+		String method = request.getMethod();
+		try
+		{
+			if (method.equalsIgnoreCase("GET"))
 			{
+				doGet(rootDirectory, request, response);
+			}
+			else if (method.equalsIgnoreCase("POST"))
+			{
+				doPost(rootDirectory, request, response);
+			}
+			else if (method.equalsIgnoreCase("PUT"))
+			{
+				doPut(rootDirectory, request, response);
+			}
+			else if (method.equalsIgnoreCase("DELETE"))
+			{
+				doDelete(rootDirectory, request, response);
+			}
+			else
+			{
+				throw new Exception();
+			}
+		}
+		catch (Exception e)
+		{
+			response.setStatus(Protocol.NOT_SUPPORTED_CODE);
+			response.setPhrase(Protocol.NOT_SUPPORTED_TEXT);
+		}
+	}
+
+	public void doGet(String serverRootDir, HttpRequest request, HttpResponse response) throws Exception
+	{
 		String filePath = serverRootDir + parseFileName(request.getUri());
 		File file = new File(filePath);
 		System.out.println(filePath);
 		// Check if the file exists
 		if (file.exists())
 		{
-			
+
 			if (file.isDirectory())
 			{
 				// Look for default index.html file in a directory
@@ -69,24 +103,15 @@ public class DefaultServlet implements IServlet
 		{
 			response.setFile(file);
 			response.setStatus(request.getSuccessCode());
-			response.setPhrase(request.getSuccessText());		
+			response.setPhrase(request.getSuccessText());
 		}
-		
+
 	}
 
-	@Override
-	public boolean doesGet()
+	public void doPut(String serverRootDir, HttpRequest request, HttpResponse response) throws Exception
 	{
-		return true;
-	}
-
-	@Override
-	public void doPut(String serverRootDir, HttpRequest request,
-			HttpResponse response) throws Exception
-			{
 		String filePath = serverRootDir + parseFileName(request.getUri());
 		File file = new File(filePath);
-
 
 		if (file.exists() && file.isDirectory())
 		{
@@ -116,18 +141,11 @@ public class DefaultServlet implements IServlet
 		}
 
 		response.setStatus(request.getSuccessCode());
-		response.setPhrase(request.getSuccessText());	}
-
-	@Override
-	public boolean doesPut() 
-	{
-		return true;
+		response.setPhrase(request.getSuccessText());
 	}
 
-	@Override
-	public void doDelete(String serverRootDir, HttpRequest request,
-			HttpResponse response) throws Exception 
-			{
+	public void doDelete(String serverRootDir, HttpRequest request, HttpResponse response) throws Exception
+	{
 		String filePath = serverRootDir + parseFileName(request.getUri());
 		File file = new File(filePath);
 
@@ -150,19 +168,11 @@ public class DefaultServlet implements IServlet
 		file.delete();
 	}
 
-	@Override
-	public boolean doesDelete() 
+	public void doPost(String serverRootDir, HttpRequest request, HttpResponse response) throws Exception
 	{
-		return true;
-	}
-
-	@Override
-	public void doPost(String serverRootDir, HttpRequest request,
-			HttpResponse response) throws Exception 
-			{
 		String filePath = serverRootDir + parseFileName(request.getUri());
 		File file = new File(filePath);
-		
+
 		if (file.exists() && file.isDirectory())
 		{
 			response.setStatus(Protocol.BAD_REQUEST_CODE);
@@ -190,32 +200,21 @@ public class DefaultServlet implements IServlet
 
 		response.setStatus(request.getSuccessCode());
 		response.setPhrase(request.getSuccessText());
-		
+
 	}
 
-	@Override
-	public boolean doesPost() 
-	{
-		return true;
-	}
-
-	String getServletName()
-	{
-		return "DefaultServlet";
-	}
-
-	String parseFileName(String uri)
+	private String parseFileName(String uri)
 	{
 		String path = uri;
-		if(path.endsWith("/")) {
+		if (path.endsWith("/"))
+		{
 			path = path.substring(0, path.length() - 1);
 		}
-		if(!path.contains(getServletName()))
+		if (!path.contains(DefaultServlet.NAME))
 		{
 			return path;
 		}
-		
-		path = path.substring(path.indexOf(getServletName()) + getServletName().length());
-		return path;
+
+		return path.substring(path.indexOf(DefaultServlet.NAME) + DefaultServlet.NAME.length());
 	}
 }

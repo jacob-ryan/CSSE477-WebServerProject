@@ -1,2 +1,5 @@
 DefaultPlugin
-DefaultServlet	DefaultServlet
+GET	DefaultServlet	DefaultServlet
+POST	DefaultServlet	DefaultServlet
+PUT	DefaultServlet	DefaultServlet
+DELETE	DefaultServlet	DefaultServlet
