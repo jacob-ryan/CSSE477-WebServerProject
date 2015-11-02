@@ -241,7 +241,10 @@ public class WebServer extends JFrame
 				{
 					WebServer.this.rateUpdater.stop = true;
 				}
-				PluginManager.instance.stopAllPlugins();
+				if (PluginManager.instance != null)
+				{
+					PluginManager.instance.stopAllPlugins();
+				}
 			}
 		});
 	}

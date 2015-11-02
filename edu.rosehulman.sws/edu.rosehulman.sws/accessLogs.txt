@@ -1,0 +1,11 @@
+[Nov 1, 2015 9:21:54 PM] Received request from /127.0.0.1:54796:
+----------- Header ----------------
+GET /test.bmp HTTP/1.1
+accept-language: en-us,en;q=0.5
+host: localhost
+connection: close
+accept-charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+------------- Body ---------------
+----------------------------------
+

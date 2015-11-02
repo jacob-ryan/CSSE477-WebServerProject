@@ -69,10 +69,6 @@ public class Plugin
 		}
 		else
 		{
-			for (Entry<ServletMapping, IServlet> entry : this.servletMappings.entrySet())
-			{
-				System.out.println("Mapping: " + entry.getKey() + "\t" + entry.getValue());
-			}
 			throw new Exception("No servlets exist to handle sub-URL: " + mapping.getSubUri());
 		}
 	}

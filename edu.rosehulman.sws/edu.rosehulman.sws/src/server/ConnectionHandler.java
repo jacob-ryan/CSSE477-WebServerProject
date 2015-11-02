@@ -10,6 +10,7 @@ package server;
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 import plugins.*;
 import protocol.*;
@@ -87,6 +88,13 @@ public class ConnectionHandler implements Runnable
 			System.out.println("[ConnectionHandler] Received request, calling HttpRequest.read().");
 			request = HttpRequest.read(inStream);
 			System.out.println("[ConnectionHandler] Successfully processed request:\n" + request);
+			
+			// Perform logging of every request to maintain an audit trail.
+			@SuppressWarnings("deprecation")
+			String message = "[" + (new Date()).toLocaleString() + "] ";
+			message += "Received request from " + this.socket.getRemoteSocketAddress() + ":\n";
+			message += request.toString() + "\n";
+			Logger.getInstance().log(message);
 		}
 		catch (ProtocolException pe)
 		{
