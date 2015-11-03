@@ -52,13 +52,16 @@ public class HeartbeatMonitor {
 				} else {
 					logEvent("Server running smoothly.");
 				}
-				// Sleep for a minute
-				Thread.sleep(60000);
-
 			} catch (SocketTimeoutException e) {
 				logEvent("Connection timed out");
 			} catch (Exception e) {
 				logEvent(e.getMessage());
+			}
+
+			// Sleep for a minute
+			try {
+				Thread.sleep(60000);
+			} catch (InterruptedException e) {
 			}
 		}
 	}
