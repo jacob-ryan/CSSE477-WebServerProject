@@ -55,7 +55,7 @@ public class BruteForceAttack extends DOSAttack {
 	public Runnable getTask() {
 		Runnable task = new Runnable() {
 			public void run() {
-				long start = System.currentTimeMillis();
+				long start = System.nanoTime();
 				
 				Socket socket = null;
 				try {
@@ -126,17 +126,16 @@ public class BruteForceAttack extends DOSAttack {
 
 				
 				// Update metrics
-				long end = System.currentTimeMillis();
-				long diff = end-start;
+				long end = System.nanoTime();
+				long diff = end - start;
 				double serviceRate;
 				synchronized(BruteForceAttack.this) {
 					connections += 1;
 					serviceTime += diff;
-					serviceRate = connections / (double)serviceTime;
-					serviceRate = serviceRate * 1000;
+					serviceRate = (double) connections / serviceTime * 1000000000;
 				}
 				
-				int readRate = (int) Math.round((double) readBytes / serviceTime * 1000 / 1024 / 1024);
+				int readRate = (int) Math.round((double) readBytes / serviceTime * 1000000000 / 1024 / 1024);
 				fireDOSRateUpdateEvent("Update-Rate", "Req/S: " + ((int) serviceRate) + " | MB/s: " + readRate);
 			}
 		};

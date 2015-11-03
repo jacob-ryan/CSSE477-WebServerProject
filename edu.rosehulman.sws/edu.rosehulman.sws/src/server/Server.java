@@ -126,10 +126,19 @@ public class Server implements Runnable
 				{
 					break;
 				}
-
-				// Create a handler for this incoming connection and start the handler in a new thread
-				ConnectionHandler handler = new ConnectionHandler(this, connectionSocket);
-				new Thread(handler).start();
+				
+				if (ConnectionRateLimiter.getInstance().canConnect(connectionSocket.getInetAddress()))
+				{
+					// Create a handler for this incoming connection and start the handler in a new thread
+					ConnectionHandler handler = new ConnectionHandler(this, connectionSocket);
+					new Thread(handler).start();
+				}
+				else
+				{
+					// Possible DDoS attack, drop connection immediately.
+					connectionSocket.close();
+					System.out.println("Detected possible DDoS attack, dropped connection from: " + connectionSocket.getInetAddress());
+				}
 			}
 			this.welcomeSocket.close();
 		}
