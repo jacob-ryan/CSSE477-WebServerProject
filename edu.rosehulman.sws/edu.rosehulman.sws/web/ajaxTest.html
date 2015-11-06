@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AJAX Test Page</title>
+<style>
+html
+{
+	height: 100%;
+}
+body
+{
+	height: 50%;
+	font: 12pt "Segoe UI";
+	padding: 20px;
+	margin: 0px;
+	text-align: center;
+}
+textarea
+{
+	width: 50%;
+	height: 100%;
+}
+</style>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script>
+$(document).ready(function()
+{
+	$("#load-file").on("click", function()
+	{
+		var filePath = $("#file-path").val().trim();
+		if (filePath.length > 0)
+		{
+			$.get("/" + filePath).done(function(data)
+			{
+				$("#contents").text(data);
+				$("#size").text(data.length + " bytes");
+			}).fail(function(error)
+			{
+				alert("An error occurred:\n" + JSON.stringify(error));
+			});
+		}
+		else
+		{
+			alert("You must enter a file path.");
+		}
+	});
+});
+</script>
+</head>
+<body>
+	<strong>File:</strong>
+	<input type="text" id="file-path">
+	<button id="load-file">Load File</button>
+	<hr>
+	<div>
+		File contents:
+	</div>
+	<textarea id="contents"></textarea>
+	<div>
+		<i>File size: <span id="size"></span></i>
+	</div>
+</body>
+</html>

@@ -101,11 +101,13 @@ public class BruteForceAttack extends DOSAttack {
 						InputStream inStream = socket.getInputStream();
 						byte[] chunk = new byte[4096]; // read 4KB chunk at a time
 						
+						System.out.println("Reading response...");
 						// Keep reading until the end but ignore the data. See ";" at the end of while
 						// which means do nothing
 						while (true)
 						{
 							int count = inStream.read(chunk);
+							System.out.print(new String(chunk, 0, count));
 							if (count == -1)
 							{
 								break;

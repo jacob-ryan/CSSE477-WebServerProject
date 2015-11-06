@@ -1,11 +1,104 @@
-[Nov 1, 2015 9:21:54 PM] Received request from /127.0.0.1:54796:
+[Nov 5, 2015 10:15:44 PM] Received request from /127.0.0.1:56735:
 ----------- Header ----------------
-GET /test.bmp HTTP/1.1
-accept-language: en-us,en;q=0.5
-host: localhost
-connection: close
-accept-charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
-accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+GET /ajaxTest.html HTTP/1.1
+accept-language: en-US
+host: localhost:8080
+connection: Keep-Alive
+dnt: 1
+cache-control: no-cache
+accept-encoding: gzip, deflate
+accept: text/html, application/xhtml+xml, */*
+user-agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
+------------- Body ---------------
+----------------------------------
+
+[Nov 5, 2015 10:15:48 PM] Received request from /127.0.0.1:56737:
+----------- Header ----------------
+GET /ajaxTest.html HTTP/1.1
+accept-language: en-US
+host: localhost:8080
+connection: Keep-Alive
+dnt: 1
+accept-encoding: gzip, deflate
+accept: text/html, application/xhtml+xml, */*
+user-agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
+------------- Body ---------------
+----------------------------------
+
+[Nov 5, 2015 10:15:52 PM] Received request from /127.0.0.1:56739:
+----------- Header ----------------
+GET /ajaxTest.html HTTP/1.1
+accept-language: en-US
+host: localhost:8080
+connection: Keep-Alive
+dnt: 1
+accept-encoding: gzip, deflate
+accept: text/html, application/xhtml+xml, */*
+user-agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
+------------- Body ---------------
+----------------------------------
+
+[Nov 5, 2015 10:16:04 PM] Received request from /127.0.0.1:56741:
+----------- Header ----------------
+GET /index.html HTTP/1.1
+referer: http://localhost:8080/ajaxTest.html
+accept-language: en-US
+x-requested-with: XMLHttpRequest
+host: localhost:8080
+connection: Keep-Alive
+dnt: 1
+cache-control: no-cache
+accept-encoding: gzip, deflate
+accept: */*
+user-agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
+------------- Body ---------------
+----------------------------------
+
+[Nov 5, 2015 10:16:16 PM] Received request from /127.0.0.1:56742:
+----------- Header ----------------
+GET /ajaxText.html HTTP/1.1
+referer: http://localhost:8080/ajaxTest.html
+accept-language: en-US
+x-requested-with: XMLHttpRequest
+host: localhost:8080
+connection: Keep-Alive
+dnt: 1
+cache-control: no-cache
+accept-encoding: gzip, deflate
+accept: */*
+user-agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
+------------- Body ---------------
+----------------------------------
+
+[Nov 5, 2015 10:16:20 PM] Received request from /127.0.0.1:56746:
+----------- Header ----------------
+GET /ajaxText.html HTTP/1.1
+referer: http://localhost:8080/ajaxTest.html
+accept-language: en-US
+x-requested-with: XMLHttpRequest
+host: localhost:8080
+connection: Keep-Alive
+dnt: 1
+cache-control: no-cache
+accept-encoding: gzip, deflate
+accept: */*
+user-agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
+------------- Body ---------------
+----------------------------------
+
+[Nov 5, 2015 10:16:27 PM] Received request from /127.0.0.1:56745:
+----------- Header ----------------
+GET /ajaxTest.html HTTP/1.1
+referer: http://localhost:8080/ajaxTest.html
+accept-language: en-US
+x-requested-with: XMLHttpRequest
+host: localhost:8080
+connection: Keep-Alive
+dnt: 1
+cache-control: no-cache
+accept-encoding: gzip, deflate
+accept: */*
+user-agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
 ------------- Body ---------------
 ----------------------------------
 
