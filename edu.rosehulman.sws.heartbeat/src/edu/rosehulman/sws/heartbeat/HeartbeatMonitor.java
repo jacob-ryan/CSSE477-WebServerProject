@@ -57,6 +57,11 @@ public class HeartbeatMonitor {
 		new Thread(source).start();
 	}
 	
+	public void stop() {
+		for(BeatSource source : this.currentHeartbeats.values()) {
+			source.stop();
+		}
+	}
 }
 
 
