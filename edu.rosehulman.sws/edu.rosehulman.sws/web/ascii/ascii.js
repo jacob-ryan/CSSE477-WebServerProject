@@ -178,6 +178,7 @@ function updateHandler()
 	obj.description = descriptionField.value;
 	obj.name = name;
 	obj.id = targetID;
+	obj.dateCreated = dateCreatedField.value;
 
 	var animations;
 	if(playing())
