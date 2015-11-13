@@ -48,7 +48,7 @@ public class BeatSource implements Runnable {
 	@Override
 	public void run() {
 		Socket socket;
-		String request = "GET /heartbeat.html HTTP/1.1\n" + "Host: localhost\n" + "Connection: Keep-Alive\n"
+		String request = "GET /heartbeat.html HTTP/1.1\n" + "Host: " + this.hostname + "\n" + "Connection: Keep-Alive\n"
 				+ "User-Agent: HttpTestClient/1.0\n" + "Accept: text/html,text/plain,application/xml,application/json\n"
 				+ "Accept-Language: en-US,en;q=0.8\n\n";
 		logEvent("Started Heartbeat Monitor for Simple Web Server (SWS) 1.0.0");
