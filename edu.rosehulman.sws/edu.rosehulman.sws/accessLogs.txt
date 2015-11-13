@@ -102,3 +102,58 @@ user-agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
 ------------- Body ---------------
 ----------------------------------
 
+[Nov 12, 2015 8:33:08 PM] Received request from /127.0.0.1:50131:
+----------- Header ----------------
+GET /RestAPI/Animation/42 HTTP/1.1
+accept-language: en-US
+host: localhost:8080
+connection: Keep-Alive
+dnt: 1
+cache-control: no-cache
+accept-encoding: gzip, deflate
+accept: text/html, application/xhtml+xml, */*
+user-agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
+------------- Body ---------------
+----------------------------------
+
+[Nov 12, 2015 8:33:39 PM] Received request from /127.0.0.1:50140:
+----------- Header ----------------
+GET /RestAPI/Animation/-1 HTTP/1.1
+accept-language: en-US
+host: localhost:8080
+connection: Keep-Alive
+dnt: 1
+cache-control: no-cache
+accept-encoding: gzip, deflate
+accept: text/html, application/xhtml+xml, */*
+user-agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
+------------- Body ---------------
+----------------------------------
+
+[Nov 12, 2015 8:51:24 PM] Received request from /127.0.0.1:50703:
+----------- Header ----------------
+GET /RestAPI/Animation/-1 HTTP/1.1
+accept-language: en-US
+host: localhost:8080
+connection: Keep-Alive
+dnt: 1
+accept-encoding: gzip, deflate
+accept: text/html, application/xhtml+xml, */*
+user-agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
+------------- Body ---------------
+----------------------------------
+
+[Nov 12, 2015 8:51:28 PM] Received request from /127.0.0.1:50705:
+----------- Header ----------------
+GET /RestAPI/Animation/1 HTTP/1.1
+accept-language: en-US
+host: localhost:8080
+connection: Keep-Alive
+dnt: 1
+cache-control: no-cache
+accept-encoding: gzip, deflate
+accept: text/html, application/xhtml+xml, */*
+user-agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
+------------- Body ---------------
+----------------------------------
+
