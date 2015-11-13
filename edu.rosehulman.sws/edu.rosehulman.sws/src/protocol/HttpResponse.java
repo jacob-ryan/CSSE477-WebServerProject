@@ -89,6 +89,7 @@ public class HttpResponse
 	public void setBody(byte[] body)
 	{
 		this.body = body;
+		this.header.put(Protocol.CONTENT_LENGTH, "" + body.length);
 	}
 
 	/**

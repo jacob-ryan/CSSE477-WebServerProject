@@ -25,7 +25,7 @@ public class PutController extends Controller
 			String json = new String(request.getBody());
 			Animation animation = this.gson.fromJson(json, Animation.class);
 			
-			String query = "UPDATE animations SET (?, ?, ?, ?, ?, ?) WHERE id = ?;";
+			String query = "UPDATE animations SET id=?, name=?, dateCreated=?, author=?, description=?, animations=? WHERE id = ?;";
 			PreparedStatement p1 = this.db.prepareStatement(query);
 			p1.setInt(1, animation.id);
 			p1.setString(2, animation.name);

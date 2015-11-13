@@ -38,7 +38,6 @@ public class GetController extends Controller
 			String json = this.gson.toJson(animation);
 			
 			response.setBody(json.getBytes());
-			System.out.println("Set body to: " + json);
 		}
 		catch (Exception e)
 		{

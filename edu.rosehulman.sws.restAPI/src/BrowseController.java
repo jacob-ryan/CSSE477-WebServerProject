@@ -31,7 +31,6 @@ public class BrowseController extends Controller
 			String json = this.gson.toJson(a);
 			
 			response.setBody(json.getBytes());
-			System.out.println("Set body to: " + json);
 		}
 		catch (Exception e)
 		{
