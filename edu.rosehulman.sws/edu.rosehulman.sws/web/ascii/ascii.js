@@ -8,7 +8,8 @@ var DEFAULTFONTSIZE = "12pt"
 
 var host = 'http://localhost'
 var port = 8080
-var fullAddress = host + ':' + port + '/AsciiPlugin/'
+// var fullAddress = host + ':' + port + '/RestAPI/'
+var fullAddress = '/RestAPI/'
 
 
 //GLOBAL VARIABLES
