@@ -1,0 +1,64 @@
+<html>
+<head>
+	<title>ASCIImation</title>
+	<link href="ascii.css" rel="stylesheet" type="text/css">
+	<meta name="description" content="Play 15 puzzle online (n by n)">
+	<script language="JavaScript" src="jquery-2.1.4.js"></script>
+	<script language="JavaScript" src="ascii.js"></script>
+</head>
+
+<body>
+	<div id="frame">
+		<h1>ASCII Animation Viewer</h1>
+		<textarea id="animation_space">
+		
+		</textarea>
+		<div id="control_row">
+			<fieldset class="control_section">
+				<legend>Play Controls:</legend>
+				<br />
+				<input id="start" type="button" onclick="start()" value="Start">
+				<input id="stop" type="button" onclick="stop()" value="Stop">
+			</fieldset>
+			<fieldset class="control_section">
+				<legend>Size:</legend>
+				<br />
+				<select name="size_choice">
+					<option value=7>Tiny</option>
+					<option value=10>Small</option>
+					<option value=12 selected="selected">Medium</option>
+					<option value=16>Large</option>
+					<option value=24>Extra Large</option>
+					<option value=32>XXL</option>
+				</select>
+			</fieldset>
+			<fieldset class="control_section">
+				<legend>Speed:</legend>
+				<br />
+				<input type="radio" name="speed" value="Turbo" >Turbo
+				<input type="radio" name="speed" value="Normal" checked>Normal
+				<input type="radio" name="speed" value="Slo-Mo" >Slo-Mo
+			</fieldset>
+		</div>
+	</div>
+	<select multiple id="animationlist">
+</select>
+<br />
+
+	<button id="browse">BROWSE</button>
+	<button id="get">GET</button>
+	<button id="update">UPDATE</button>
+	<button id="upload">UPLOAD</button>
+	<button id="delete">DELETE</button>
+
+<br />
+
+<div>Name: <input id="name"></input></div>
+<div>Author: <input id="author"></input></div>
+<div>Description:  <input id="description"></input></div>
+<div>Date Created: <input id="dateCreated" disabled=true></input></div>
+
+
+	
+</body>
+</html>
