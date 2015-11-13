@@ -26,14 +26,17 @@ public class PostController extends Controller
 			Animation animation = this.gson.fromJson(json, Animation.class);
 			
 			String query = "INSERT INTO animations VALUES (0, ?, ?, ?, ?, ?);";
-			query += "SELECT LAST_INSERT_ID();";
-			PreparedStatement p = this.db.prepareStatement(query);
-			p.setString(2, animation.name);
-			p.setString(3, animation.dateCreated);
-			p.setString(4, animation.author);
-			p.setString(5, animation.description);
-			p.setString(6, animation.animations);
-			ResultSet r = p.executeQuery();
+			PreparedStatement p1 = this.db.prepareStatement(query);
+			p1.setString(1, animation.name);
+			p1.setString(2, animation.dateCreated);
+			p1.setString(3, animation.author);
+			p1.setString(4, animation.description);
+			p1.setString(5, animation.animations);
+			System.out.println("Inserted " + p1.executeUpdate() + " records!");
+			
+			query = "SELECT LAST_INSERT_ID();";
+			PreparedStatement p2 = this.db.prepareStatement(query);
+			ResultSet r = p2.executeQuery();
 			
 			int id = this.getResultId(r);
 			String body = "" + id;

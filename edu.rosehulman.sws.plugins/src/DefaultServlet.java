@@ -1,14 +1,8 @@
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.FileNameMap;
 import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,7 +28,7 @@ public class DefaultServlet implements IServlet
 		System.out.println("DefaultPlugin is starting...");
 		try
 		{
-			Thread.sleep(1000);
+			Thread.sleep(100);
 		}
 		catch (InterruptedException e)
 		{
@@ -48,7 +42,7 @@ public class DefaultServlet implements IServlet
 		System.out.println("DefaultPlugin is stopping...");
 		try
 		{
-			Thread.sleep(1000);
+			Thread.sleep(100);
 		}
 		catch (InterruptedException e)
 		{

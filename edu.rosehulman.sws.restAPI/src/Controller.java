@@ -59,6 +59,6 @@ public abstract class Controller implements IServlet
 	protected int getResultId(ResultSet results) throws SQLException
 	{
 		results.next();
-		return results.getInt(0);
+		return results.getInt(1);
 	}
 }

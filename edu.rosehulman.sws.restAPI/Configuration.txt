@@ -1,2 +1,6 @@
 RestAPI
+GET	AllAnimations	BrowseController
 GET	Animation	GetController
+POST	Animation	PostController
+PUT	Animation	PutController
+DELETE	Animation	DeleteController
