@@ -1,2 +1,0 @@
-restapi.jar
-defaultplugin.jar
