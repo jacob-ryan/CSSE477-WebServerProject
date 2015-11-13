@@ -13,6 +13,7 @@ public class ClientHandler
 		this.loadBalancer = loadBalancer;
 		this.clientSocket = clientSocket;
 		Socket webServerSocket = loadBalancer.createWebServerSocket();
+		System.out.println("Created web server socket");
 		
 		RequestHandler reqHandler = new RequestHandler(clientSocket, webServerSocket);
 		ResponseHandler resHandler = new ResponseHandler(clientSocket, webServerSocket);

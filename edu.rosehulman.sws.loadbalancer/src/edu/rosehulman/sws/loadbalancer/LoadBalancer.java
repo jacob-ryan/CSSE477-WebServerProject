@@ -12,7 +12,7 @@ import java.net.UnknownHostException;
 
 public class LoadBalancer implements Runnable
 {
-	Host[] webServerAddresses = new Host[]{new Host("137.112.232.41", 8080)};
+	Host[] webServerAddresses = new Host[]{new Host("137.112.232.41", 8080), new Host("localhost", 8082)};
 
 	int currentWebServerIndex = 0;
 	
@@ -58,6 +58,7 @@ public class LoadBalancer implements Runnable
 				
 				if (ConnectionRateLimiter.getInstance().canConnect(connectionSocket.getInetAddress()))
 				{
+					System.out.println("creating handler");
 					// Create a handler for this incoming connection and start the handler in a new thread
 					ClientHandler handler = new ClientHandler(this, connectionSocket);
 				}
@@ -72,7 +73,7 @@ public class LoadBalancer implements Runnable
 		}
 		catch (Exception e)
 		{
-			
+			e.printStackTrace();
 		}
 		
 	
@@ -101,6 +102,7 @@ public class LoadBalancer implements Runnable
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
 		}
 	}
 
@@ -123,7 +125,7 @@ public class LoadBalancer implements Runnable
 		int index;
 		synchronized(this)
 		{
-			this.currentWebServerIndex += 1 % this.webServerAddresses.length;
+			this.currentWebServerIndex = (this.currentWebServerIndex + 1) % this.webServerAddresses.length;
 			index = this.currentWebServerIndex;
 		}
 		Host host = this.webServerAddresses[index];

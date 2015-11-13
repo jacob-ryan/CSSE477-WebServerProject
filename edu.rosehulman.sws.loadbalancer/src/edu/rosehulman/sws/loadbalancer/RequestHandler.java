@@ -25,15 +25,23 @@ public class RequestHandler implements Runnable
 			InputStream inStream = this.clientSocket.getInputStream();
 			OutputStream outStream = this.webServerSocket.getOutputStream();
 			
-			while(true)
+			while (true)
 			{
-				int reading = inStream.read();
-				outStream.write(reading);
+				int ch = inStream.read();
+				if (ch >= 0)
+				{
+					outStream.write(ch);
+					outStream.flush();
+				}
+				else
+				{
+					throw new IOException();
+				}
 			}
 		}
 		catch(IOException e)
 		{
-			
+			System.out.println(e.toString());	
 		}
 		
 	}
