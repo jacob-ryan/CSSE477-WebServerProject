@@ -142,6 +142,11 @@ public class ConnectionHandler implements Runnable
 				if (plugin != null)
 				{
 					String subUrl = request.getUri().substring(endIndex + 1);
+					endIndex = subUrl.indexOf("/");
+					if (endIndex != -1)
+					{
+						subUrl = subUrl.substring(0, endIndex);
+					}
 					ServletMapping mapping = new ServletMapping(request.getMethod(), subUrl);
 					plugin.processRequest(this.server.getRootDirectory(), mapping, request, response);
 				}

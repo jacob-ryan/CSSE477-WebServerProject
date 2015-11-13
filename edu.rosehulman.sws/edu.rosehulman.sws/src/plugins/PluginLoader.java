@@ -1,6 +1,7 @@
 package plugins;
 
 import java.io.*;
+import java.lang.reflect.*;
 import java.net.*;
 import java.util.*;
 import java.util.jar.*;
@@ -48,6 +49,10 @@ public class PluginLoader
 			}
 
 			String jarPath = "jar:file:" + path + "!/";
+			// Hack to allow plugins to load their own
+			// helper classes (inside their JAR file).
+			addLibrary(new File(path));
+
 			URL[] urls = new URL[] { new URL(jarPath) };
 			try (URLClassLoader classLoader = new URLClassLoader(urls))
 			{
@@ -74,7 +79,7 @@ public class PluginLoader
 						{
 							throw new Exception("Configuration file contains invalid line: " + line);
 						}
-						
+
 						String method = parts[0];
 						String uri = parts[1];
 						String className = parts[2];
@@ -88,5 +93,12 @@ public class PluginLoader
 				return plugin;
 			}
 		}
+	}
+	
+	private static void addLibrary(File file) throws Exception
+	{
+		Method method = URLClassLoader.class.getDeclaredMethod("addURL", new Class[] { URL.class });
+		method.setAccessible(true);
+		method.invoke(ClassLoader.getSystemClassLoader(), new Object[] { file.toURI().toURL() });
 	}
 }
