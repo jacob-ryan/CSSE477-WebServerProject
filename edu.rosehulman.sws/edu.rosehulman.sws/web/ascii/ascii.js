@@ -45,9 +45,9 @@ window.onload = function()
 
 };
 
-var listAnimations = [{'id': 1, 'name': 'first', 'dateCreated': '9/29/15', 'author': 'David Mutchler', 'description': 'A person dancing', 'animations': 'o\n|\n/_ \n=====\n	o\n	|\n	/_\n=====\no\n|\n/_\nplease\n=====\n	o\n	|\n	/_\nplease'}, 
-{'id': 2, 'name': 'second', 'dateCreated': '9/29/15', 'author': 'David Mutchler', 'description': 'A person dancing', 'animations': 'o\n|\n/_ \n=====\n	o\n	|\n	/_\n=====\no\n|\n/_\nplease\n=====\n	o\n	|\n	/_\nplease'}];
-
+// var listAnimations = [{'id': 1, 'name': 'first', 'dateCreated': '9/29/15', 'author': 'David Mutchler', 'description': 'A person dancing', 'animations': 'o\n|\n/_ \n=====\n	o\n	|\n	/_\n=====\no\n|\n/_\nplease\n=====\n	o\n	|\n	/_\nplease'}, 
+// {'id': 2, 'name': 'second', 'dateCreated': '9/29/15', 'author': 'David Mutchler', 'description': 'A person dancing', 'animations': 'o\n|\n/_ \n=====\n	o\n	|\n	/_\n=====\no\n|\n/_\nplease\n=====\n	o\n	|\n	/_\nplease'}];
+var listAnimations;
 
 function selectChangeHandler()
 {
@@ -94,10 +94,10 @@ function browseHandler()
   },
   
   
-
   success:  function( data )
    {
    	data = JSON.parse(data);
+   	listAnimations = data;
    	for (var i = 0; i < data.length; i++) 
   	{
   		var obj = data[i];
@@ -203,10 +203,11 @@ function updateHandler()
 	  success:  function( data ) 
 	  {
 	  	alert("Updated " + name);
+	  	browseHandler();
 	  }
 
 	});
-	browseHandler();
+	
 };
 
 function uploadHandler()
@@ -220,10 +221,12 @@ function uploadHandler()
 	
 	var currentDate = getCurrentDate();
 
+	var name = nameField.value;
+
 	var obj = {};
 	obj.author = authorField.value;
 	obj.description = descriptionField.value;
-	obj.name = nameField.value;
+	obj.name = name;
 	obj.dateCreated = currentDate;
 
 	var animations;
@@ -250,11 +253,11 @@ function uploadHandler()
 	  success:  function( data ) 
 	  {
 	  	alert("Uploaded " + name);
+	  	browseHandler();
 	  }
 
 	});
 	dateCreatedField.value = currentDate;
-	browseHandler();
 };
 
 function getCurrentDate()
@@ -300,11 +303,10 @@ function deleteHandler()
 	  success:  function( data ) 
 	  {
 	  	alert("Deleted " + name);
+	  	browseHandler();
 	  }
 
 	});
-
-	browseHandler();
 };
 
 function playing()
